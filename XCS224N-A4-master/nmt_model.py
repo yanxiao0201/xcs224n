@@ -246,9 +246,9 @@ class NMT(nn.Module):
         for y_t in torch.split(y, 1):
             y_t_squeezed = torch.squeeze(y_t, dim=0)
             y_bar_t = torch.cat((o_prev, y_t_squeezed), 1)
-            dec_state, combined_output, e_t = self.step(y_bar_t, dec_state, enc_hiddens, enc_hiddens_proj, enc_masks)
-            combined_outputs.append(combined_output)
-            o_prev = combined_output
+            dec_state, o_t, e_t = self.step(y_bar_t, dec_state, enc_hiddens, enc_hiddens_proj, enc_masks)
+            combined_outputs.append(o_t)
+            o_prev = o_t
 
         combined_outputs = torch.stack(combined_outputs)
         ### END YOUR CODE
@@ -315,7 +315,7 @@ class NMT(nn.Module):
 
         # Set e_t to -inf where enc_masks has 1
         if enc_masks is not None:
-            e_t.data.masked_fill_(enc_masks.bool(), -float('inf'))
+            e_t.data.masked_fill_(enc_masks.byte(), -float('inf'))
 
         ### YOUR CODE HERE (~6 Lines)
         ### TODO:

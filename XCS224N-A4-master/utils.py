@@ -22,10 +22,10 @@ def pad_sents(sents, pad_token):
 
     max_len = max(len(sent) for sent in sents)
     for sent in sents:
-        while len(sent) < max_len:
-            sent.append(pad_token)
+        sent_len = len(sent)
+        new_sent = sent + (max_len - sent_len) * [pad_token]
+        sents_padded.append(new_sent)
 
-    sents_padded = sents
     ### END YOUR CODE
 
     return sents_padded
