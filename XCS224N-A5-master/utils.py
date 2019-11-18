@@ -41,7 +41,7 @@ def pad_sents_char(sents, char_pad_token):
     for sent in sents:
         sent_padded = []
         for word in sent:
-            word_padded = word[:]
+            word_padded = word[: max_word_length]
             while len(word_padded) < max_word_length:
                 word_padded.append(char_pad_token)
             sent_padded.append(word_padded)
